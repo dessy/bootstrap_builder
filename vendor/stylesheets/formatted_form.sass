@@ -1,0 +1,121 @@
+form.formatted
+  font: 13px/20px Trebuchet MS,serif
+  margin: auto
+  background: #eee
+  border: solid #ddd 2px
+  color: #000
+  width: 50%
+  padding: 10px 20px
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3)
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3)
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3)
+
+  // --- Form element container ---
+  .form_element
+    overflow: hidden
+    _height: 1%
+    margin-bottom: 1px
+    padding: 5px 0px
+    .label
+      font: 10px/30px Trebuchet MS,serif
+      color: #6E666E
+      text-transform: uppercase
+      letter-spacing: 1px
+      float: left
+      width: 120px
+      text-align: right
+    .value
+      margin-left: 130px
+      .errors
+        font: 9px/12px Trebuchet MS, serif
+        color: #BE1E2D
+        clear: both
+      .description
+        clear: both
+        font: italic 10px/12px Trebuchet MS, serif
+
+  // --- Text and password fields ---
+  .form_element.text_field, .form_element.password_field
+    input
+      width: 250px
+      border: 1px solid #a6a8ab
+      padding: 5px
+      width: 90%
+    
+    // --- Text area ---
+  .form_element.text_area 
+    textarea
+      width: 250px
+      height: 150px
+
+  // --- Check box and Radio button ---
+  .form_element.check_box, .form_element.radio_button
+    .value 
+      label
+        font: 10px/20px Trebuchet MS,serif
+        color: #6E666E
+        text-transform: uppercase
+        margin-right: 10px
+        letter-spacing: 0.1em
+      input
+        margin-right: 5px
+      .field_with_errors
+        float: left
+
+  .form_element.radio_button
+    .value
+      .option
+        float: left
+      .option + .option
+        margin-left: 10px
+        
+  
+  // --- Submit button ---
+  .form_element.submit
+    padding-left: 130px
+    a.submit_image
+      padding: 5px 10px
+      font: bold 12px/20px helvetica,arial,freesans,clean,sans-serif
+      text-decoration: none
+      color: #333
+      text-shadow: 1px 1px 0 #fff
+      white-space: nowrap
+      border: none
+      overflow: visible
+      background: #ddd
+      filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ffffff',endColorstr='#e1e1e1')
+      background: -webkit-gradient(linear,0% 0,0% 100%,from(#fff),to(#e1e1e1))
+      background: -moz-linear-gradient(-90deg,#fff,#e1e1e1)
+      border-bottom: 1px solid #ebebeb
+      -webkit-border-radius: 4px
+      -moz-border-radius: 4px
+      border-radius: 4px
+      -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3)
+      -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3)
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3)
+      cursor: pointer
+      -webkit-font-smoothing: subpixel-antialiased!important
+    a.submit_image:hover
+      color: #fff
+      text-decoration: none
+      text-shadow: -1px -1px 0 rgba(0,0,0,0.3)
+      border-color: #518cc6
+      border-bottom-color: #2a65a0
+      background: #599bdc
+      filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#599bdc',endColorstr='#3072b3')
+      background: -webkit-gradient(linear,left top,left bottom,from(#599bdc),to(#3072b3))
+      background: -moz-linear-gradient(top,#599bdc,#3072b3)
+    
+    
+  .form_element.submit_text
+    padding-left: 130px
+    font: normal 12px/20px Trebuchet MS,serif
+      
+  // --- Form error ---
+  .form_error
+    background-color: #BE1E2D
+    color: #fff
+    text-align: center
+    padding: 10px
+    margin-bottom: 1px
+    font-size: 14px

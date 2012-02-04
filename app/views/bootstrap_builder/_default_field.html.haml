@@ -1,0 +1,10 @@
+.clearfix{:class => ('error' if error_messages.present?)}
+  
+  = builder.label(method, label_text)
+  
+  .input
+    = field
+    - if error_messages.present?
+      %span.help-inline= error_messages
+    - if description.present?
+      %span.help-block= description

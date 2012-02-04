@@ -1,0 +1,18 @@
+.clearfix{:class => ('error' if error_messages.present?)}
+
+  .input
+    %ul.inputs-list
+      %li
+        %label
+          = field
+          %span
+            = label_text
+            - if required
+              %span.required *
+            
+        - if error_messages.present?
+          %span.help-inline= error_messages
+        - if description.present?
+          %span.help-block= description
+      
+      

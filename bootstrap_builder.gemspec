@@ -17,28 +17,38 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
+    ".DS_Store",
     "LICENSE.txt",
     "README.md",
     "Rakefile",
     "VERSION",
     "app/.DS_Store",
+    "app/assets/images/glyphicons-halflings-white.png",
+    "app/assets/images/glyphicons-halflings.png",
+    "app/assets/javascripts/bootstrap.js",
+    "app/assets/javascripts/formatted_form.js",
+    "app/assets/stylesheets/bootstrap-responsive.css",
+    "app/assets/stylesheets/bootstrap.css",
     "app/views/bootstrap_builder/_check_box.html.haml",
     "app/views/bootstrap_builder/_default_field.html.haml",
     "app/views/bootstrap_builder/_radio_button.html.haml",
     "app/views/bootstrap_builder/_submit.html.haml",
+    "bootstrap_builder.gemspec",
     "lib/bootstrap_builder.rb",
     "lib/bootstrap_builder/.DS_Store",
     "lib/bootstrap_builder/builder.rb",
     "lib/bootstrap_builder/configuration.rb",
     "lib/bootstrap_builder/engine.rb",
     "lib/bootstrap_builder/helper.rb",
+    "lib/bootstrap_builder/railtie.rb",
+    "rails-bootstrap-builder.gemspec",
     "vendor/.DS_Store"
   ]
-  s.homepage = "http://github.com/twg/rails-bootstrap-builder"
+  s.homepage = "http://github.com/twg/bootstrap_builder"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.15"
-  s.summary = "A Rails form builder to the generates Twitter Bootstrap markup"
+  s.summary = "A Rails form builder that generates Twitter Bootstrap markup"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

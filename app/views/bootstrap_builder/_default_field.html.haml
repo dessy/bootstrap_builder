@@ -1,10 +1,33 @@
-.clearfix{:class => ('error' if error_messages.present?)}
+- if builder.options[:html] && builder.options[:html][:class] =~ /form-horizontal/
+  .control-group{:class => ('error' if error_messages.present?)}
+    = builder.label(method, label_text, :class => 'control-label')
+    .controls
+      - if prepend.present?
+        .input-prepend
+          %span.add-on= prepend
+          = field
+      - elsif append.present?
+        .input-append
+          = field
+          %span.add-on= append
+      - else
+        = field
+
+
+      - if error_messages.present?
+        %span.help-inline= error_messages
+
+      - if help_block.present?
+        %p.help-block= help_block
   
-  = builder.label(method, label_text)
-  
-  .input
-    = field
-    - if error_messages.present?
-      %span.help-inline= error_messages
-    - if description.present?
-      %span.help-block= description
+- else
+  - if label_text.present?
+    = builder.label(method, label_text, :class => 'control-label')
+  = field
+
+  - if error_messages.present?
+    %span.help-inline= error_messages
+
+  - if help_block.present?
+    %p.help-block= help_block
+

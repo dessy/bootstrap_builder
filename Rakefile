@@ -3,7 +3,7 @@ require 'rake'
 require 'jeweler'
 
 Jeweler::Tasks.new do |gem|
-  gem.name = "rails-bootstrap-builder"
+  gem.name = "bootstrap_builder"
   gem.homepage = "http://github.com/twg/rails-bootstrap-builder"
   gem.license = "MIT"
   gem.summary = "A Rails form builder to the generates Twitter Bootstrap markup"

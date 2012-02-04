@@ -1,4 +1,4 @@
-require 'bootstrap_builder/engine' if defined?(Rails)
+require 'bootstrap_builder/engine'
 require 'bootstrap_builder/builder'
 require 'bootstrap_builder/helper'
 require 'bootstrap_builder/configuration'

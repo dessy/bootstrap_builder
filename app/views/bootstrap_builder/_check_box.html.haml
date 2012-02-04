@@ -1,18 +1,14 @@
-.clearfix{:class => ('error' if error_messages.present?)}
+.control-group{:class => ('error' if error_messages.present?)}
 
-  .input
-    %ul.inputs-list
-      %li
-        %label
-          = field
-          %span
-            = label_text
-            - if required
-              %span.required *
-            
-        - if error_messages.present?
-          %span.help-inline= error_messages
-        - if description.present?
-          %span.help-block= description
-      
-      
+  = builder.label(method, label_text, :class => 'control-label')
+  .controls
+    - if defined?(values)
+      - values.each do |value|
+        %label.checkbox #{value[:field]} #{value[:label_text]}
+    - else
+      %label.checkbox
+        = field
+        = help_block if help_block.present?
+        
+      - if error_messages.present?
+        %span.help-inline= error_messages

@@ -1,7 +1,7 @@
 module BootstrapBuilder
   class Builder < ActionView::Helpers::FormBuilder
     
-    %w(text_field password_field text_area file_field datetime_select date_select).each do |field_name|
+    %w(text_field password_field text_area file_field datetime_select date_select time_zone_select).each do |field_name|
       define_method field_name do |method, *args|
         options = args.detect { |a| a.is_a?(Hash) } || {}
         render_field(field_name, method, options) { super(method, options) } 
@@ -17,9 +17,26 @@ module BootstrapBuilder
     end
 
     def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
-      raise options.to_yaml
-      render_field('check_box', method, options) do
-        super(method, options, checked_value, unchecked_value)
+      if options[:values].present?
+        values = options[:values].collect do |key, val|
+
+          {
+            :field => super(method, options.merge({:name => "#{object_name}[#{method}][]"}), val, nil),
+            :label_text => key,
+            :label_for => "#{object_name}_#{method}_#{val.to_s.gsub(' ', '_').underscore}"
+          }
+        end
+        @template.render(:partial => "#{BootstrapBuilder.config.template_folder}/check_box", :locals  => {
+          :builder => self,
+          :method => method,
+          :values => values,
+          :label_text => label_text(method, options.delete(:label)),
+          :error_messages => error_messages_for(method)
+        })
+      else
+        render_field('check_box', method, options) do
+          super(method, options, checked_value, unchecked_value)
+        end
       end
     end
 
@@ -49,13 +66,12 @@ module BootstrapBuilder
       @template.render(:partial => "#{BootstrapBuilder.config.template_folder}/radio_button", :locals  => {
         :builder => self,
         :method => method,
-        :field_name => 'radio_button',
         :label_text => label_text(method, options.delete(:label)),
         :choices => choices,
         :required => options.delete(:required),
         :before_text => @template.raw(options.delete(:before_text)),
         :after_text => @template.raw(options.delete(:after_text)),
-        :description => @template.raw(options.delete(:desc)),
+        :help_block => @template.raw(options.delete(:help_block)),
         :error_messages => error_messages_for(method)
       })
     end
@@ -64,48 +80,25 @@ module BootstrapBuilder
     def submit(value, options={}, &block)
       after_text = @template.capture(&block) if block_given?
       
-      case BootstrapBuilder.config.template_folder 
-      when :formatted_form
-         # Set the script to change the text
-        if change_to_text = options.delete(:change_to_text)
-          options[:onclick] ||= ''
-          options[:onclick] = "$(this).closest('.form_element').hide();$(this).closest('.form_element').after($('<div class=form_element><div class=value>#{change_to_text}</div></div>'))"
-        end
-        
-      when :twitter_bootstrap
-         # Add specific bootstrap class
-        options[:class] ||= ''
-        options[:class] += ' btn primary'
+      # Add specific bootstrap class
+      options[:class] ||= ''
+      options[:class] += ' btn'
+      unless options[:class] =~ /btn-/
+        options[:class] += ' btn-primary' 
+      end
 
-         # Set the script to change the text
-        if change_to_text = options.delete(:change_to_text)
-          options[:onclick] ||= ''
-          options[:onclick] = "$(this).closest('.actions').hide();$(this).closest('.actions').after($('<div class=actions>#{change_to_text}</div>'))"
-        end
+      # Set the script to change the text
+      if change_to_text = options.delete(:change_to_text)
+        options[:onclick] ||= ''
+        options[:onclick] = "$(this).closest('.actions').hide();$(this).closest('.actions').after($('<div class=actions>#{change_to_text}</div>'))"
       end
 
       @template.render(:partial => "#{BootstrapBuilder.config.template_folder}/submit", :locals  => {
-        :field_name => 'submit',
+        :builder => self,
         :field => super(value, options),
         :after_text => after_text,
         :change_to_text => change_to_text
       })
-      
-      
-      # out = @template.content_tag(:div, :class => "form_element submit#{' change_to_text' if change_to_text}") do
-      #   if options.delete(:image)
-      #     content = super(value, options.merge(:style=>'visibility:hidden;position: absolute'))
-      #     content << @template.link_to(@template.content_tag(:span, value), "#", :class => 'submit_image')
-      #     content << cancel_link.html_safe
-      #   else
-      #     super(value, options) + cancel_link.html_safe
-      #   end
-      # end
-      # 
-      # if change_to_text
-      #   out << @template.content_tag(:div, change_to_text, :class => 'form_element submit_text')
-      # end
-      # out.html_safe
     end
 
     # generic container for all things form
@@ -160,15 +153,15 @@ module BootstrapBuilder
         :field => @template.capture(&block),
         :label_text => label_text(method, options.delete(:label)),
         :required => options.delete(:required),
-        :before_text => @template.raw(options.delete(:before_text)),
-        :after_text => @template.raw(options.delete(:after_text)),
-        :description => @template.raw(options.delete(:desc)),
+        :prepend => @template.raw(options.delete(:prepend)),
+        :append => @template.raw(options.delete(:append)),
+        :help_block => @template.raw(options.delete(:help_block)),
         :error_messages => error_messages_for(method)
       })
     end
 
     def label_text(method, text = nil)
-      text.blank? ? method.to_s.titleize.capitalize : @template.raw(text)
+      text.nil? ? method.to_s.titleize.capitalize : @template.raw(text)
     end
     
   end

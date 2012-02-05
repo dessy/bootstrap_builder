@@ -1,6 +1,7 @@
 - if builder.options[:html] && builder.options[:html][:class] =~ /form-horizontal/
   .control-group{:class => ('error' if error_messages.present?)}
-    = builder.label(method, label_text, :class => 'control-label')
+    - if label_text.present?
+      = builder.label(method, label_text, :class => 'control-label')
     .controls
       - if prepend.present?
         .input-prepend

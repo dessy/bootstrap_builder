@@ -1,9 +1,4 @@
 # Bootstrap Builder
-Author: [The Working Group](http://www.theworkinggroup.ca)
-
----
-
-## What is it?
 
 A Rails form builder that generates [Twitter Bootstrap](http://twitter.github.com/bootstrap) markup and helps keep your code clean.
 
@@ -60,4 +55,8 @@ Useful for inline search forms.
       = f.submit 'Search', :class => 'btn-default'
 
 *(Example using [MetaSearch](https://github.com/ernie/meta_search) helpers)*
+
+---
+
+Author: [The Working Group](http://www.theworkinggroup.ca)
 

@@ -2,9 +2,9 @@
 
 A Rails form builder that generates [Twitter Bootstrap](http://twitter.github.com/bootstrap) markup and helps keep your code clean.
 
-* Includes Twiter Bootsrap CSS and Javascript files
+* Includes Twiter Bootstrap CSS and Javascript files
 * Uses existing Rails helpers
-* Autogenerates labels
+* Auto-generates labels
 * Generates horizontal, vertical and inline forms
 * Groups of checkboxes
 
@@ -66,16 +66,23 @@ Hide the label by passing `:label => ''` on any field. (Useful for inline search
 
 *(Example using [MetaSearch](https://github.com/ernie/meta_search) helpers)*
 
+### Checkboxes
+
+A single checkbox:
+
+    = f.check_box :send_reminder
+
+A group of checkboxes:
+  
+    = f.check_box :option, :values => [['option 1', 1], ['option 2', 2], ['option 3', 3]]
+
 ### More examples
 
-Use `:prepend' and `:append` on any element.
+Use `:append` and `:prepend` on any element.
 
     = f.email_field :email, :prepend => '@'
     = f.text_field :price, :append => '.00'
 
-A checkbox group:
-  
-    = f.check_box :option, :values => [['option 1', 1], ['option 2', 2], ['option 3', 3]]
 
 ---
 

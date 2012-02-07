@@ -4,12 +4,17 @@ module BootstrapBuilder
     %w(
       text_field 
       password_field 
-      email_field 
+      email_field
+      telephone_field
+      phone_field
+      number_field
       text_area 
       file_field 
       datetime_select 
       date_select 
       time_zone_select
+      range_field
+      search_field
     ).each do |field_name|
       define_method field_name do |method, *args|
         options = args.detect { |a| a.is_a?(Hash) } || {}
@@ -28,11 +33,12 @@ module BootstrapBuilder
     def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
       if options[:values].present?
         values = options.delete(:values).collect do |key, val|
-
+          name = "#{object_name}[#{method}][]"
+          id = "#{object_name}_#{method}_#{val.to_s.gsub(' ', '_').underscore}"
           {
-            :field => super(method, options.merge({:name => "#{object_name}[#{method}][]"}), val, nil),
+            :field => super(method, options.merge({:name => name, :id => id}), val, nil),
             :label_text => key,
-            :label_for => "#{object_name}_#{method}_#{val.to_s.gsub(' ', '_').underscore}"
+            :id => id
           }
         end
         @template.render(:partial => "#{BootstrapBuilder.config.template_folder}/check_box", :locals  => {
@@ -40,6 +46,7 @@ module BootstrapBuilder
           :method => method,
           :values => values,
           :label_text => label_text(method, options.delete(:label)),
+          :help_block => @template.raw(options.delete(:help_block)),
           :error_messages => error_messages_for(method)
         })
       else
@@ -61,7 +68,7 @@ module BootstrapBuilder
             {
               :field => super(method, choice[1], options),
               :label => choice[0],
-              :label_for => "#{object_name}_#{method}_#{choice[1].to_s.gsub(' ', '_').underscore}"
+              :id => "#{object_name}_#{method}_#{choice[1].to_s.gsub(' ', '_').underscore}"
             }
           end
         else
@@ -98,8 +105,9 @@ module BootstrapBuilder
 
       # Set the script to change the text
       if change_to_text = options.delete(:change_to_text)
+        options[:class] += ' change_to_text'
         options[:onclick] ||= ''
-        options[:onclick] = "$(this).closest('.actions').hide();$(this).closest('.actions').after($('<div class=actions>#{change_to_text}</div>'))"
+        options[:onclick] = "$(this).closest('.submit').hide();$(this).closest('.submit').after($('<div class=submit>#{change_to_text}</div>'))"
       end
 
       @template.render(:partial => "#{BootstrapBuilder.config.template_folder}/submit", :locals  => {
@@ -158,7 +166,6 @@ module BootstrapBuilder
       @template.render(:partial => "#{BootstrapBuilder.config.template_folder}/#{template}", :locals  => {
         :builder => self,
         :method => method,
-        :field_name => field_name,
         :field => @template.capture(&block),
         :label_text => label_text(method, options.delete(:label)),
         :required => options.delete(:required),

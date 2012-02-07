@@ -1,22 +1,14 @@
-.clearfix{:class => ('error' if error_messages.present?)}
+.control-group{:class => ('error' if error_messages.present?)}
 
-  %label
-    = label_text
-    - if required
-      %span.required *
+  - if label_text.present?
+    = builder.label(method, label_text, :class => 'control-label')
 
-  .input
-    %ul.inputs-list
-      - choices.each do |choice|
-        %li
-          %label{:for => choice[:label_for]}
-            = choice[:field]
-            %span= choice[:label]
+  .controls
+    - choices.each do |choice|
+      %label.radio{:for => choice[:id]}
+        #{choice[:field]} #{choice[:label]}
 
-
-
-    - if description.present?
-      %span.help-block= description
+    %p.help-block= help_block if help_block.present?
 
     - if error_messages.present?
       %span.help-inline= error_messages

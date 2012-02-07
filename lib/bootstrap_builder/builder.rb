@@ -1,7 +1,16 @@
 module BootstrapBuilder
   class Builder < ActionView::Helpers::FormBuilder
     
-    %w(text_field password_field text_area file_field datetime_select date_select time_zone_select).each do |field_name|
+    %w(
+      text_field 
+      password_field 
+      email_field 
+      text_area 
+      file_field 
+      datetime_select 
+      date_select 
+      time_zone_select
+    ).each do |field_name|
       define_method field_name do |method, *args|
         options = args.detect { |a| a.is_a?(Hash) } || {}
         render_field(field_name, method, options) { super(method, options) } 
@@ -18,7 +27,7 @@ module BootstrapBuilder
 
     def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
       if options[:values].present?
-        values = options[:values].collect do |key, val|
+        values = options.delete(:values).collect do |key, val|
 
           {
             :field => super(method, options.merge({:name => "#{object_name}[#{method}][]"}), val, nil),
